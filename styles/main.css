@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.grid > div {
+  border: 1px solid;
+  flex-basis: 10%;
+  min-height: 5vh;
+}

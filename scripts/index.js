@@ -48,6 +48,7 @@ class Snake {
     fruitsOnBoard.splice(indexOfFruit, 1);
     fruit.eaten();
     this.size = this.size + 1;
+    renderScore();
   }
 
   shouldEat() {
@@ -130,8 +131,6 @@ class Snake {
   }
 }
 
-const snake = new Snake(55);
-
 const getRandomNumber = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -154,6 +153,10 @@ class Fruit {
   }
 }
 
+/********************************* */
+// Game initialization
+/********************************* */
+
 let renderFruitInterval;
 
 const renderFruit = () => {
@@ -166,4 +169,21 @@ const renderFruits = (event) => {
   renderFruitInterval = setInterval(renderFruit, 5000);
 };
 
-document.addEventListener('DOMContentLoaded', renderFruits);
+const startGame = (event) => {
+  renderFruits();
+  new Snake(55);
+};
+
+/********************************* */
+// Score
+/********************************* */
+
+let score = 0;
+const scoreDisplay = document.querySelector('.score > p');
+
+const renderScore = () => {
+  score = score + 1000;
+  scoreDisplay.innerText = score;
+};
+
+document.addEventListener('DOMContentLoaded', startGame);

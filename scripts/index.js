@@ -23,6 +23,7 @@ const fruitsOnBoard = [];
 class Snake {
   constructor(position) {
     this.position = position;
+    this.bodyPosition = [];
     this.size = 1;
     this.render(this.position);
     this.move();
@@ -49,6 +50,33 @@ class Snake {
     const indexOfFruit = fruitsOnBoard.indexOf(fruit);
     fruitsOnBoard.splice(indexOfFruit, 1);
     fruit.eaten();
+    this.size = this.size + 1;
+  }
+
+  shouldEat() {
+    if (this.isPositionAFruit()) {
+      this.eatFruit(this.position);
+    }
+  }
+
+  moveUp() {
+    this.position = this.position - width;
+    this.shouldEat();
+  }
+
+  moveRight() {
+    this.position++;
+    this.shouldEat();
+  }
+
+  moveDown() {
+    this.position = this.position + width;
+    this.shouldEat();
+  }
+
+  moveLeft() {
+    this.position--;
+    this.shouldEat();
   }
 
   move() {
@@ -62,35 +90,22 @@ class Snake {
       switch (key) {
         case 'ArrowUp':
           if (y > 0) {
-            this.position = this.position - width;
-            if (this.isPositionAFruit()) {
-              this.eatFruit(this.position);
-            }
+            this.moveUp();
           }
-
           break;
         case 'ArrowRight':
           if (x < width - 1) {
-            this.position++;
-            if (this.isPositionAFruit()) {
-              this.eatFruit(this.position);
-            }
+            this.moveRight();
           }
           break;
         case 'ArrowDown':
           if (y < width - 1) {
-            this.position = this.position + width;
-            if (this.isPositionAFruit()) {
-              this.eatFruit(this.position);
-            }
+            this.moveDown();
           }
           break;
         case 'ArrowLeft':
           if (x > 0) {
-            this.position--;
-            if (this.isPositionAFruit()) {
-              this.eatFruit(this.position);
-            }
+            this.moveLeft();
           }
           break;
         default:

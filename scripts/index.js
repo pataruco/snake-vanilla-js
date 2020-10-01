@@ -71,8 +71,9 @@ class Snake {
 
   moveUp() {
     this.setCoordinates();
-    if (this.y > 0) {
-      this.headPosition = this.headPosition - width;
+    const newPosition = this.headPosition - width;
+    if (this.y > 0 && !this.isBodySnake(newPosition)) {
+      this.headPosition = newPosition;
       this.setBodyPositions();
       this.shouldEat();
     } else {
@@ -82,8 +83,9 @@ class Snake {
 
   moveRight() {
     this.setCoordinates();
-    if (this.x < width - 1) {
-      this.headPosition++;
+    const newPosition = this.headPosition + 1;
+    if (this.x < width - 1 && !this.isBodySnake(newPosition)) {
+      this.headPosition = newPosition;
       this.setBodyPositions();
       this.shouldEat();
     } else {
@@ -93,9 +95,9 @@ class Snake {
 
   moveDown() {
     this.setCoordinates();
-
-    if (this.y < width - 1) {
-      this.headPosition = this.headPosition + width;
+    const newPosition = this.headPosition + width;
+    if (this.y < width - 1 && !this.isBodySnake(newPosition)) {
+      this.headPosition = newPosition;
       this.setBodyPositions();
       this.shouldEat();
     } else {
@@ -105,8 +107,9 @@ class Snake {
 
   moveLeft() {
     this.setCoordinates();
-    if (this.x > 0) {
-      this.headPosition--;
+    const newPosition = this.headPosition - 1;
+    if (this.x > 0 && !this.isBodySnake(newPosition)) {
+      this.headPosition = newPosition;
       this.setBodyPositions();
       this.shouldEat();
     } else {
@@ -119,6 +122,11 @@ class Snake {
     positionsToRemove.forEach((position) => this.remove(position));
   }
 
+  isBodySnake(newPosition) {
+    const snakeBody = this.bodyPositions.slice(-this.size);
+    return snakeBody.includes(newPosition);
+  }
+
   renderPositions(bodyPositions) {
     const positionsToRender = bodyPositions.slice(-this.size);
     positionsToRender.forEach((position) => this.render(position));
@@ -127,9 +135,7 @@ class Snake {
   move() {
     window.addEventListener('keyup', (event) => {
       const { key } = event;
-
       this.removePositions(this.bodyPositions);
-
       switch (key) {
         case 'ArrowUp':
           this.moveUp();
@@ -144,7 +150,6 @@ class Snake {
           this.moveLeft();
           break;
       }
-
       this.renderPositions(this.bodyPositions);
     });
   }

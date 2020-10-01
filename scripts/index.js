@@ -28,7 +28,7 @@ class Snake {
     this.x;
     this.y;
     this.intervalId;
-    this.intervalTime = 1000;
+    this.intervalTime = 500;
     this.move();
     this.renderPositions(this.bodyPositions);
     this.setCoordinates();
@@ -53,7 +53,10 @@ class Snake {
     fruitsOnBoard.splice(indexOfFruit, 1);
     fruit.eaten();
     this.size = this.size + 1;
+    this.increaseSpead();
     renderScore();
+
+    console.log({ intervalTime: this.intervalTime });
   }
 
   shouldEat() {
@@ -156,6 +159,12 @@ class Snake {
   renderPositions(bodyPositions) {
     const positionsToRender = bodyPositions.slice(-this.size);
     positionsToRender.forEach((position) => this.render(position));
+  }
+
+  increaseSpead() {
+    this.intervalTime < 25
+      ? (this.intervalTime = 25)
+      : (this.intervalTime -= 25);
   }
 
   move() {

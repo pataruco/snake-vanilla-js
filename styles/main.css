@@ -18,3 +18,7 @@
 .grid > .snake {
   background-color: green;
 }
+
+.grid > .fruit {
+  background-color: pink;
+}

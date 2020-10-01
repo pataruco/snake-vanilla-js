@@ -37,7 +37,6 @@ class Snake {
   move() {
     window.addEventListener('keyup', (event) => {
       const { key } = event;
-
       const x = this.position % 10;
       const y = Math.floor(this.position / 10);
 
@@ -75,3 +74,34 @@ class Snake {
 }
 
 const snake = new Snake(55);
+
+const getRandomNumber = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
+class Fruit {
+  constructor(position) {
+    this.position = position;
+    this.render(this.position);
+  }
+
+  render(position) {
+    cells[position].classList.add('fruit');
+  }
+
+  remove(position) {
+    cells[position].classList.remove('fruit');
+  }
+}
+
+let renderFruitInterval;
+
+const renderFruit = () => {
+  const randomFruitPosition = getRandomNumber(0, 100);
+  new Fruit(randomFruitPosition);
+};
+
+const renderFruits = (event) => {
+  renderFruitInterval = setInterval(renderFruit, 5000);
+};
+
+document.addEventListener('DOMContentLoaded', renderFruits);

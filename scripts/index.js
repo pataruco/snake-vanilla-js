@@ -22,10 +22,10 @@ const fruitsOnBoard = [];
 
 class Snake {
   constructor(position) {
-    this.position = position;
-    this.bodyPosition = [];
+    this.headPosition = position;
+    this.bodyPositions = [];
     this.size = 1;
-    this.render(this.position);
+    this.render(this.headPosition);
     this.move();
   }
 
@@ -39,14 +39,11 @@ class Snake {
 
   isPositionAFruit() {
     const fruits = fruitsOnBoard.map((fruit) => fruit.position);
-    return fruits.includes(this.position);
+    return fruits.includes(this.headPosition);
   }
 
   eatFruit(position) {
-    const [fruit] = fruitsOnBoard.filter(
-      (fruit) => fruit.position === position,
-    );
-
+    const fruit = fruitsOnBoard.find((fruit) => fruit.position === position);
     const indexOfFruit = fruitsOnBoard.indexOf(fruit);
     fruitsOnBoard.splice(indexOfFruit, 1);
     fruit.eaten();
@@ -55,37 +52,57 @@ class Snake {
 
   shouldEat() {
     if (this.isPositionAFruit()) {
-      this.eatFruit(this.position);
+      this.eatFruit(this.headPosition);
     }
   }
 
+  setBodyPositions() {
+    this.bodyPositions.push(this.headPosition);
+  }
+
   moveUp() {
-    this.position = this.position - width;
+    this.headPosition = this.headPosition - width;
+    this.setBodyPositions();
     this.shouldEat();
   }
 
   moveRight() {
-    this.position++;
+    this.headPosition++;
+    this.setBodyPositions();
     this.shouldEat();
   }
 
   moveDown() {
-    this.position = this.position + width;
+    this.headPosition = this.headPosition + width;
+    this.setBodyPositions();
     this.shouldEat();
   }
 
   moveLeft() {
-    this.position--;
+    this.headPosition--;
+    this.setBodyPositions();
     this.shouldEat();
+  }
+
+  removePositions(bodyPositions) {
+    const positionsToRemove = bodyPositions.slice(-this.size);
+    positionsToRemove.forEach((position) => this.remove(position));
+  }
+
+  renderPositions(bodyPositions) {
+    const positionsToRender = bodyPositions.slice(-this.size);
+    positionsToRender.forEach((position) => this.render(position));
   }
 
   move() {
     window.addEventListener('keyup', (event) => {
       const { key } = event;
-      const x = this.position % 10;
-      const y = Math.floor(this.position / 10);
+      const x = this.headPosition % 10;
+      const y = Math.floor(this.headPosition / 10);
 
-      this.remove(this.position);
+      this.removePositions(this.bodyPositions);
+
+      // this.remove(this.headPosition);
 
       switch (key) {
         case 'ArrowUp':
@@ -108,11 +125,11 @@ class Snake {
             this.moveLeft();
           }
           break;
-        default:
-          console.log('Eso no es una flecha flaco');
-          break;
       }
-      this.render(this.position);
+
+      this.renderPositions(this.bodyPositions);
+
+      // this.render(this.headPosition);
     });
   }
 }

@@ -10,7 +10,6 @@ const cells = [];
 
 for (let index = 0; index < cellCount; index = index + 1) {
   const cell = document.createElement('div');
-  cell.innerText = index;
   grid.appendChild(cell);
   cells.push(cell);
 }

@@ -5,14 +5,19 @@
 .grid {
   display: flex;
   flex-wrap: wrap;
-  width: 75%;
+  width: 50vh;
   margin: 0 auto;
+  border: 5px solid;
 }
 
 .grid > div {
-  border: 1px solid;
   flex-basis: 10%;
-  min-height: 5vh;
+}
+
+.grid > div::before {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
 }
 
 .grid > .snake {

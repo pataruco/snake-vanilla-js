@@ -18,6 +18,8 @@ for (let index = 0; index < cellCount; index = index + 1) {
 /********************************* */
 // Snake
 /********************************* */
+const fruitsOnBoard = [];
+
 class Snake {
   constructor(position) {
     this.position = position;
@@ -34,6 +36,21 @@ class Snake {
     cells[position].classList.remove('snake');
   }
 
+  isPositionAFruit() {
+    const fruits = fruitsOnBoard.map((fruit) => fruit.position);
+    return fruits.includes(this.position);
+  }
+
+  eatFruit(position) {
+    const [fruit] = fruitsOnBoard.filter(
+      (fruit) => fruit.position === position,
+    );
+
+    const indexOfFruit = fruitsOnBoard.indexOf(fruit);
+    fruitsOnBoard.splice(indexOfFruit, 1);
+    fruit.eaten();
+  }
+
   move() {
     window.addEventListener('keyup', (event) => {
       const { key } = event;
@@ -46,23 +63,35 @@ class Snake {
         case 'ArrowUp':
           if (y > 0) {
             this.position = this.position - width;
+            if (this.isPositionAFruit()) {
+              this.eatFruit(this.position);
+            }
           }
+
           break;
         case 'ArrowRight':
           if (x < width - 1) {
             this.position++;
+            if (this.isPositionAFruit()) {
+              this.eatFruit(this.position);
+            }
           }
           break;
         case 'ArrowDown':
           if (y < width - 1) {
             this.position = this.position + width;
+            if (this.isPositionAFruit()) {
+              this.eatFruit(this.position);
+            }
           }
           break;
         case 'ArrowLeft':
           if (x > 0) {
             this.position--;
+            if (this.isPositionAFruit()) {
+              this.eatFruit(this.position);
+            }
           }
-
           break;
         default:
           console.log('Eso no es una flecha flaco');
@@ -91,13 +120,18 @@ class Fruit {
   remove(position) {
     cells[position].classList.remove('fruit');
   }
+
+  eaten() {
+    this.remove(this.position);
+  }
 }
 
 let renderFruitInterval;
 
 const renderFruit = () => {
   const randomFruitPosition = getRandomNumber(0, 100);
-  new Fruit(randomFruitPosition);
+  const fruit = new Fruit(randomFruitPosition);
+  fruitsOnBoard.push(fruit);
 };
 
 const renderFruits = (event) => {

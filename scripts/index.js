@@ -71,8 +71,11 @@ class Snake {
 
   moveUp() {
     this.setCoordinates();
+
     const newPosition = this.headPosition - width;
-    if (this.y > 0 && !this.isBodySnake(newPosition)) {
+    const isBelowBorderTop = this.y > 0;
+
+    if (isBelowBorderTop && !this.isBodySnake(newPosition)) {
       this.headPosition = newPosition;
       this.setBodyPositions();
       this.shouldEat();
@@ -83,8 +86,11 @@ class Snake {
 
   moveRight() {
     this.setCoordinates();
+
     const newPosition = this.headPosition + 1;
-    if (this.x < width - 1 && !this.isBodySnake(newPosition)) {
+    const isLeftOfBorderRight = this.x < width - 1;
+
+    if (isLeftOfBorderRight && !this.isBodySnake(newPosition)) {
       this.headPosition = newPosition;
       this.setBodyPositions();
       this.shouldEat();
@@ -95,8 +101,11 @@ class Snake {
 
   moveDown() {
     this.setCoordinates();
+
     const newPosition = this.headPosition + width;
-    if (this.y < width - 1 && !this.isBodySnake(newPosition)) {
+    const isAboveBorderBottom = this.y < width - 1;
+
+    if (isAboveBorderBottom && !this.isBodySnake(newPosition)) {
       this.headPosition = newPosition;
       this.setBodyPositions();
       this.shouldEat();
@@ -107,8 +116,11 @@ class Snake {
 
   moveLeft() {
     this.setCoordinates();
+
     const newPosition = this.headPosition - 1;
-    if (this.x > 0 && !this.isBodySnake(newPosition)) {
+    const isRightOfBorderLeft = this.x > 0;
+
+    if (isRightOfBorderLeft && !this.isBodySnake(newPosition)) {
       this.headPosition = newPosition;
       this.setBodyPositions();
       this.shouldEat();

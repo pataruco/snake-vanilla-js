@@ -27,6 +27,8 @@ class Snake {
     this.size = 1;
     this.x;
     this.y;
+    this.intervalId;
+    this.intervalTime = 1000;
     this.move();
     this.renderPositions(this.bodyPositions);
     this.setCoordinates();
@@ -70,6 +72,7 @@ class Snake {
   }
 
   moveUp() {
+    this.removePositions(this.bodyPositions);
     this.setCoordinates();
 
     const newPosition = this.headPosition - width;
@@ -82,9 +85,12 @@ class Snake {
     } else {
       console.log('kill');
     }
+
+    this.renderPositions(this.bodyPositions);
   }
 
   moveRight() {
+    this.removePositions(this.bodyPositions);
     this.setCoordinates();
 
     const newPosition = this.headPosition + 1;
@@ -97,9 +103,12 @@ class Snake {
     } else {
       console.log('kill');
     }
+
+    this.renderPositions(this.bodyPositions);
   }
 
   moveDown() {
+    this.removePositions(this.bodyPositions);
     this.setCoordinates();
 
     const newPosition = this.headPosition + width;
@@ -112,9 +121,12 @@ class Snake {
     } else {
       console.log('kill');
     }
+
+    this.renderPositions(this.bodyPositions);
   }
 
   moveLeft() {
+    this.removePositions(this.bodyPositions);
     this.setCoordinates();
 
     const newPosition = this.headPosition - 1;
@@ -127,6 +139,8 @@ class Snake {
     } else {
       console.log('kill');
     }
+
+    this.renderPositions(this.bodyPositions);
   }
 
   removePositions(bodyPositions) {
@@ -147,22 +161,36 @@ class Snake {
   move() {
     window.addEventListener('keyup', (event) => {
       const { key } = event;
-      this.removePositions(this.bodyPositions);
       switch (key) {
         case 'ArrowUp':
-          this.moveUp();
+          clearInterval(this.intervalId);
+          this.intervalId = setInterval(
+            this.moveUp.bind(this),
+            this.intervalTime,
+          );
           break;
         case 'ArrowRight':
-          this.moveRight();
+          clearInterval(this.intervalId);
+          this.intervalId = setInterval(
+            this.moveRight.bind(this),
+            this.intervalTime,
+          );
           break;
         case 'ArrowDown':
-          this.moveDown();
+          clearInterval(this.intervalId);
+          this.intervalId = setInterval(
+            this.moveDown.bind(this),
+            this.intervalTime,
+          );
           break;
         case 'ArrowLeft':
-          this.moveLeft();
+          clearInterval(this.intervalId);
+          this.intervalId = setInterval(
+            this.moveLeft.bind(this),
+            this.intervalTime,
+          );
           break;
       }
-      this.renderPositions(this.bodyPositions);
     });
   }
 }

@@ -25,8 +25,11 @@ class Snake {
     this.headPosition = position;
     this.bodyPositions = [this.headPosition];
     this.size = 1;
+    this.x;
+    this.y;
     this.move();
     this.renderPositions(this.bodyPositions);
+    this.setCoordinates();
   }
 
   render(position) {
@@ -61,28 +64,54 @@ class Snake {
     this.bodyPositions.push(this.headPosition);
   }
 
+  setCoordinates() {
+    this.x = this.headPosition % 10;
+    this.y = Math.floor(this.headPosition / 10);
+  }
+
   moveUp() {
-    this.headPosition = this.headPosition - width;
-    this.setBodyPositions();
-    this.shouldEat();
+    this.setCoordinates();
+    if (this.y > 0) {
+      this.headPosition = this.headPosition - width;
+      this.setBodyPositions();
+      this.shouldEat();
+    } else {
+      console.log('kill');
+    }
   }
 
   moveRight() {
-    this.headPosition++;
-    this.setBodyPositions();
-    this.shouldEat();
+    this.setCoordinates();
+    if (this.x < width - 1) {
+      this.headPosition++;
+      this.setBodyPositions();
+      this.shouldEat();
+    } else {
+      console.log('kill');
+    }
   }
 
   moveDown() {
-    this.headPosition = this.headPosition + width;
-    this.setBodyPositions();
-    this.shouldEat();
+    this.setCoordinates();
+
+    if (this.y < width - 1) {
+      this.headPosition = this.headPosition + width;
+      this.setBodyPositions();
+      this.shouldEat();
+    } else {
+      console.log('kill');
+    }
   }
 
   moveLeft() {
-    this.headPosition--;
-    this.setBodyPositions();
-    this.shouldEat();
+    this.setCoordinates();
+    if (this.x > 0) {
+      this.headPosition--;
+      this.setBodyPositions();
+      this.shouldEat();
+    } else {
+      console.log('kill');
+    }
   }
 
   removePositions(bodyPositions) {
@@ -98,31 +127,21 @@ class Snake {
   move() {
     window.addEventListener('keyup', (event) => {
       const { key } = event;
-      const x = this.headPosition % 10;
-      const y = Math.floor(this.headPosition / 10);
 
       this.removePositions(this.bodyPositions);
 
       switch (key) {
         case 'ArrowUp':
-          if (y > 0) {
-            this.moveUp();
-          }
+          this.moveUp();
           break;
         case 'ArrowRight':
-          if (x < width - 1) {
-            this.moveRight();
-          }
+          this.moveRight();
           break;
         case 'ArrowDown':
-          if (y < width - 1) {
-            this.moveDown();
-          }
+          this.moveDown();
           break;
         case 'ArrowLeft':
-          if (x > 0) {
-            this.moveLeft();
-          }
+          this.moveLeft();
           break;
       }
 

@@ -23,10 +23,10 @@ const fruitsOnBoard = [];
 class Snake {
   constructor(position) {
     this.headPosition = position;
-    this.bodyPositions = [];
+    this.bodyPositions = [this.headPosition];
     this.size = 1;
-    this.render(this.headPosition);
     this.move();
+    this.renderPositions(this.bodyPositions);
   }
 
   render(position) {
@@ -102,8 +102,6 @@ class Snake {
 
       this.removePositions(this.bodyPositions);
 
-      // this.remove(this.headPosition);
-
       switch (key) {
         case 'ArrowUp':
           if (y > 0) {
@@ -128,8 +126,6 @@ class Snake {
       }
 
       this.renderPositions(this.bodyPositions);
-
-      // this.render(this.headPosition);
     });
   }
 }

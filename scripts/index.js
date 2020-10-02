@@ -6,13 +6,16 @@ const height = width;
 const cellCount = width * height;
 const grid = document.querySelector('.grid');
 
-const cells = [];
+let cells = [];
+let snake;
 
-for (let index = 0; index < cellCount; index = index + 1) {
-  const cell = document.createElement('div');
-  grid.appendChild(cell);
-  cells.push(cell);
-}
+const createGrid = () => {
+  for (let index = 0; index < cellCount; index = index + 1) {
+    const cell = document.createElement('div');
+    grid.appendChild(cell);
+    cells.push(cell);
+  }
+};
 
 /********************************* */
 // Snake
@@ -85,7 +88,7 @@ class Snake {
       this.setBodyPositions();
       this.shouldEat();
     } else {
-      console.log('kill');
+      gameOver();
     }
 
     this.renderPositions(this.bodyPositions);
@@ -103,7 +106,7 @@ class Snake {
       this.setBodyPositions();
       this.shouldEat();
     } else {
-      console.log('kill');
+      gameOver();
     }
 
     this.renderPositions(this.bodyPositions);
@@ -121,7 +124,7 @@ class Snake {
       this.setBodyPositions();
       this.shouldEat();
     } else {
-      console.log('kill');
+      gameOver();
     }
 
     this.renderPositions(this.bodyPositions);
@@ -139,7 +142,7 @@ class Snake {
       this.setBodyPositions();
       this.shouldEat();
     } else {
-      console.log('kill');
+      gameOver();
     }
 
     this.renderPositions(this.bodyPositions);
@@ -242,8 +245,9 @@ const renderFruits = (event) => {
 };
 
 const startGame = (event) => {
+  createGrid();
   renderFruits();
-  new Snake(55);
+  snake = new Snake(55);
 };
 
 /********************************* */
@@ -259,3 +263,28 @@ const renderScore = () => {
 };
 
 document.addEventListener('DOMContentLoaded', startGame);
+
+/********************************* */
+// Reset
+/********************************* */
+
+const handleResetClick = (event) => {
+  cells = [];
+  grid.innerHTML = '';
+  startGame();
+};
+
+const resetButton = document.querySelector('button[type="reset"]');
+
+resetButton.addEventListener('click', handleResetClick);
+
+/********************************* */
+// Game Over
+/********************************* */
+
+const gameOver = () => {
+  console.log('GAME OVER ');
+  cells = [];
+  grid.innerHTML = '';
+  grid.classList.add('game-over');
+};

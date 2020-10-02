@@ -2,10 +2,24 @@
   box-sizing: border-box;
 }
 
+body {
+  font-size: 100%;
+  font-family: sans-serif;
+}
+
+main {
+  width: 50vh;
+  margin: 0 auto;
+}
+
+.score {
+  text-align: center;
+}
+
 .grid {
   display: flex;
   flex-wrap: wrap;
-  width: 50vh;
+
   margin: 0 auto;
   border: 5px solid;
 }
@@ -26,4 +40,42 @@
 
 .grid > .fruit {
   background-color: pink;
+}
+
+.grid.game-over {
+  background-image: url(https://media.giphy.com/media/dkuZHIQsslFfy/giphy.gif);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.grid.game-over::after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+
+menu {
+  padding: 0;
+  margin: 0;
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button[type='reset'] {
+  color: green;
+  appearance: none;
+  border: 1px solid;
+  color: white;
+  background-color: black;
+  display: block;
+  padding: 0.25rem 0.75rem;
+  transition: ease 0.25s all;
+}
+
+button[type='reset']:active {
+  border: 1px solid black;
+  color: black;
+  background-color: white;
 }
